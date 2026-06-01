@@ -26,36 +26,38 @@ same goes for chapters under 100, e.g: v09, 009, 099)
 local entries = {}
 local p = io.popen('dir /ad /b')
 for dir in p:lines() do
-	local entry = {
-		alias = dir,
-		title = dir:gsub('_', ' '),
-		vol = {},
-		ch = {}
-	}
-	-- Get volumes and chapters
-	local p2 = io.popen('cd '..dir..' && dir /ad /b')
-	for ind in p2:lines() do
-		if ind:match('^v[%d]+') then
-			table.insert(entry.vol, ind)
-		else
-			table.insert(entry.ch, ind)
+	if dir ~= 'va2' then
+		local entry = {
+			alias = dir,
+			title = dir:gsub('_', ' '),
+			vol = {},
+			ch = {}
+		}
+		-- Get volumes and chapters
+		local p2 = io.popen('cd '..dir..' && dir /ad /b')
+		for ind in p2:lines() do
+			if ind:match('^v[%d]+') then
+				table.insert(entry.vol, ind)
+			else
+				table.insert(entry.ch, ind)
+			end
 		end
-	end
-	p2:close()
-	entry.vol_total = #entry.vol
-	entry.ch_total = #entry.ch
-	if entry.ch[1] then
-		entry.ch_start = tonumber(entry.ch[1])
-		entry.ch_end = entry.ch_start + (entry.ch_total-1)
-	end
+		p2:close()
+		entry.vol_total = #entry.vol
+		entry.ch_total = #entry.ch
+		if entry.ch[1] then
+			entry.ch_start = tonumber(entry.ch[1])
+			entry.ch_end = entry.ch_start + (entry.ch_total-1)
+		end
 
-	print '\n-- Entry found --'
-	print('Title:', entry.title)
-	print('Volumes total:', entry.vol_total)
-	print('Chapters total:', entry.ch_total)
-	print('First chapter:', entry.ch_start)
-	print('Last chapter:', entry.ch_end)
-	table.insert(entries, entry)
+		print '\n-- Entry found --'
+		print('Title:', entry.title)
+		print('Volumes total:', entry.vol_total)
+		print('Chapters total:', entry.ch_total)
+		print('First chapter:', entry.ch_start)
+		print('Last chapter:', entry.ch_end)
+		table.insert(entries, entry)
+	end
 end
 p:close()
 
@@ -144,8 +146,8 @@ local function run(entry)
 <!DOCTYPE html><html lang='en'><head><meta charset='utf-8'>
 	<meta name='viewport' content='width=device-width, height=device-height, initial-scale=1.0, viewport-fit=cover'>
 	<title>]]..title..[[</title>
-	<link rel='stylesheet' href='https://reineimi.github.io/va2/lib/va2.css'>
-	<script src='https://reineimi.github.io/va2/lib/va2.js' async></script>
+	<link rel='stylesheet' href='../va2/lib/va2.css'>
+	<script src='../va2/lib/va2.js' async></script>
 	<script src='volumes.js'></script>
 	<script>
 	const sel = {};
@@ -366,8 +368,8 @@ f:write([[
 <!DOCTYPE html><html lang='en'><head><meta charset='utf-8'>
 	<meta name='viewport' content='width=device-width, height=device-height, initial-scale=1.0, viewport-fit=cover'>
 	<title>Comics library</title>
-	<link rel='stylesheet' href='https://reineimi.github.io/va2/lib/va2.css'>
-	<script src='https://reineimi.github.io/va2/lib/va2.js' async></script>
+	<link rel='stylesheet' href='va2/lib/va2.css'>
+	<script src='va2/lib/va2.js' async></script>
 	<script>
 	window.addEventListener('load', ()=>{
 		va2.data.accentColor = 'crimson'; init();
