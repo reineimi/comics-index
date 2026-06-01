@@ -4,6 +4,9 @@
 > [!TIP]
 > Guide on how to run Lua files on Windows <a href='https://github.com/reineimi/lua-on-windows' target='_blank'>can be viewed here</a>.
 
+# IMPORTANT NOTE
+This version uses the online version of the Va2 library. For the offline version, head to: [("local" branch)](https://github.com/reineimi/comics-index/tree/local)
+
 ## Usage
 ```
 1.	Put this script in the directory of the
